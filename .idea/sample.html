@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>지도에 교통정보 표시하기</title>
+
+</head>
+<body>
+<div id="map" style="width:100%;height:350px;"></div>
+
+<script type="text/javascript" src="//apis.daum.net/maps/maps3.js?apikey=8d170cacc34eeabbb70b0f4fe5672fd2"></script>
+<script>
+    var mapContainer = document.getElementById('map'), // 지도를 표시할 div
+        mapOption = {
+            center: new daum.maps.LatLng(37.566826, 126.9786567), // 지도의 중심좌표
+            level: 3 // 지도의 확대 레벨
+        };
+
+    var map = new daum.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
+
+    // 지도에 교통정보를 표시하도록 지도타입을 추가합니다
+    map.addOverlayMapTypeId(daum.maps.MapTypeId.TRAFFIC);
+
+    // 아래 코드는 위에서 추가한 교통정보 지도타입을 제거합니다
+    // map.removeOverlayMapTypeId(daum.maps.MapTypeId.TRAFFIC);
+</script>
+</body>
+</html>
+
+<!--<!DOCTYPE html>-->
+<!--<html>-->
+<!--<head>-->
+    <!--<meta charset="UTF-8">-->
+    <!--<meta http-equiv="X-UA-Compatible" content="IE=edge">-->
+    <!--<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">-->
+    <!--<title>간단한 지도 표시하기</title>-->
+    <!--<script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?clientId=cpw9RMOfkmb0qIa7Vz23"></script>-->
+<!--</head>-->
+<!--<body>-->
+<!--<div id="map" style="width:400px;height:400px;"></div>-->
+
+<!--<script>-->
+    <!--var map = new naver.maps.Map('map', {-->
+        <!--zoom: 7,-->
+        <!--center: new naver.maps.LatLng(37.3614483, 127.1114883)-->
+    <!--});-->
+
+    <!--var markerList = [];-->
+    <!--var menuLayer = $('<div style="position:absolute;z-index:10000;background-color:#fff;border:solid 1px #333;padding:10px;display:none;"></div>');-->
+
+    <!--map.getPanes().floatPane.appendChild(menuLayer[0]);-->
+
+
+    <!--naver.maps.Event.addListener(map, 'click', function(e) {-->
+        <!--var marker = new naver.maps.Marker({-->
+            <!--position: e.coord,-->
+            <!--map: map-->
+        <!--});-->
+
+        <!--markerList.push(marker);-->
+    <!--});-->
+
+    <!--naver.maps.Event.addListener(map, 'keydown', function(e) {-->
+        <!--var keyboardEvent = e.keyboardEvent,-->
+            <!--keyCode = keyboardEvent.keyCode || keyboardEvent.which;-->
+
+        <!--var ESC = 27;-->
+
+        <!--if (keyCode === ESC) {-->
+            <!--keyboardEvent.preventDefault();-->
+
+            <!--for (var i=0, ii=markerList.length; i<ii; i++) {-->
+                <!--markerList[i].setMap(null);-->
+            <!--}-->
+
+            <!--markerList = [];-->
+
+            <!--menuLayer.hide();-->
+        <!--}-->
+    <!--});-->
+
+    <!--naver.maps.Event.addListener(map, 'mousedown', function(e) {-->
+        <!--menuLayer.hide();-->
+    <!--});-->
+
+    <!--naver.maps.Event.addListener(map, 'rightclick', function(e) {-->
+        <!--var coordHtml = 'Coord: '+ e.coord +'<br />Point: '+ e.point +'<br />Offset: '+ e.offset;-->
+
+        <!--menuLayer.show().css({-->
+            <!--left: e.offset.x,-->
+            <!--top: e.offset.y-->
+        <!--}).html(coordHtml);-->
+    <!--});-->
+
+
+    <!--//http://localhost:63342/untitled1/.idea/sample.html?_ijt=e17em9jsnmtsskj3h3e1i84hod-->
+<!--//    var mapOptions = {-->
+<!--//        center: new naver.maps.LatLng(37.3, 127.105399),-->
+<!--//        zoom: 9,-->
+<!--//        activateBicycleMap : true-->
+<!--//    };-->
+<!--//-->
+<!--//-->
+<!--//-->
+<!--//    var map = new naver.maps.Map('map', mapOptions);-->
+<!--</script>-->
+<!--</body>-->
+<!--</html>-->
