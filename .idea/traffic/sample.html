@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>지도에 교통정보 표시하기</title>
+
+</head>
+<body>
+<div id="map" style="width:700px;height:700px;"></div>
+<p id="result"></p>
+<script type="text/javascript" src="//apis.daum.net/maps/maps3.js?apikey=8d170cacc34eeabbb70b0f4fe5672fd2"></script>
+<script>
+    var mapContainer = document.getElementById('map'), // 지도를 표시할 div
+        mapOption = {
+            center: new daum.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
+            level: 2
+//            center: new daum.maps.LatLng(36.406735, 128.021311), // 지도의 중심좌표
+//            level: 12 // 지도의 확대 레벨
+        };
+
+    var map = new daum.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
+
+    // 지도에 교통정보를 표시하도록 지도타입을 추가합니다
+    map.addOverlayMapTypeId(daum.maps.MapTypeId.TRAFFIC);
+
+    // 아래 코드는 위에서 추가한 교통정보 지도타입을 제거합니다
+    // map.removeOverlayMapTypeId(daum.maps.MapTypeId.TRAFFIC);\
+
+    var polygonPath = [
+        new daum.maps.LatLng(33.450965145649576, 126.57020280169624),
+        new daum.maps.LatLng(33.450958085478554, 126.57011679275952),
+        new daum.maps.LatLng(33.45098043867851, 126.57006290510864),
+        new daum.maps.LatLng(33.45097328515681, 126.56995000794919),
+        new daum.maps.LatLng(33.450990859851004, 126.56981816664641),
+        new daum.maps.LatLng(33.45101296099739, 126.5696916806749),
+        new daum.maps.LatLng(33.45098334215462, 126.56960040542974),
+        new daum.maps.LatLng(33.450985176064975, 126.56947939729541),
+        new daum.maps.LatLng(33.450917277011726, 126.56939906680272),
+        new daum.maps.LatLng(33.45086322853736, 126.56941277823229),
+        new daum.maps.LatLng(33.45081577388131, 126.56937805752437),
+        new daum.maps.LatLng(33.450779813154405, 126.56940781273165),
+        new daum.maps.LatLng(33.45081633405741, 126.56953938654304),
+        new daum.maps.LatLng(33.45080569884398, 126.56972228175628),
+        new daum.maps.LatLng(33.450752219367345, 126.56990001069012),
+        new daum.maps.LatLng(33.45065801908533, 126.57003491859678),
+        new daum.maps.LatLng(33.45063139100987, 126.57015604858434),
+        new daum.maps.LatLng(33.45064506393239, 126.5701990028593)
+    ];
+
+    // 지도에 표시할 다각형을 생성합니다
+    var polygon = new daum.maps.Polygon({
+        path:polygonPath, // 그려질 다각형의 좌표 배열입니다
+        strokeWeight: 3, // 선의 두께입니다
+        strokeColor: '#39DE2A', // 선의 색깔입니다
+        strokeOpacity: 0.8, // 선의 불투명도 입니다 1에서 0 사이의 값이며 0에 가까울수록 투명합니다
+        strokeStyle: 'solid', // 선의 스타일입니다
+        fillColor: '#A2FF99', // 채우기 색깔입니다
+        fillOpacity: 0.7 // 채우기 불투명도 입니다
+    });
+
+    // 지도에 다각형을 표시합니다
+    polygon.setMap(map);
+
+    // 다각형에 마우스오버 이벤트가 발생했을 때 변경할 채우기 옵션입니다
+    var mouseoverOption = {
+        fillColor: '#EFFFEE', // 채우기 색깔입니다
+        fillOpacity: 0.8 // 채우기 불투명도 입니다
+    };
+
+    daum.maps.event.addListener(polygon, 'click', function(mouseEvent) { // 다각형 안에서만 클릭 이벤트 발생
+
+        // 클릭한 위도, 경도 정보를 가져옵니다
+        var latlng = mouseEvent.latLng;
+
+        var message = '클릭한 위치의 위도는 ' + latlng.getLat() + ' 이고, ';
+        message += '경도는 ' + latlng.getLng() + ' 입니다';
+
+        var resultDiv = document.getElementById('result');
+        resultDiv.innerHTML = message;
+
+    });
+
+
+    // 다각형에 마우스아웃 이벤트가 발생했을 때 변경할 채우기 옵션입니다
+    var mouseoutOption = {
+        fillColor: '#A2FF99', // 채우기 색깔입니다
+        fillOpacity: 0.7 // 채우기 불투명도 입니다
+    };
+
+    // 다각형에 마우스오버 이벤트를 등록합니다
+    daum.maps.event.addListener(polygon, 'mouseover', function() {
+
+        // 다각형의 채우기 옵션을 변경합니다
+        polygon.setOptions(mouseoverOption);
+
+    });
+
+    daum.maps.event.addListener(polygon, 'mouseout', function() {
+
+        // 다각형의 채우기 옵션을 변경합니다
+        polygon.setOptions(mouseoutOption);
+
+    });
+
+    // 다각형에 마우스다운 이벤트를 등록합니다
+    var downCount = 0;
+    daum.maps.event.addListener(polygon, 'mousedown', function() {
+        console.log(event);
+        var resultDiv = document.getElementById('result');
+        resultDiv.innerHTML = '다각형에 mousedown 이벤트가 발생했습니다!' + (++downCount);
+    });
+</script>
+</body>
+</html>
+
+<!--<!DOCTYPE html>-->
+<!--<html>-->
+<!--<head>-->
+    <!--<meta charset="UTF-8">-->
+    <!--<meta http-equiv="X-UA-Compatible" content="IE=edge">-->
+    <!--<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">-->
+    <!--<title>간단한 지도 표시하기</title>-->
+    <!--<script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?clientId=cpw9RMOfkmb0qIa7Vz23"></script>-->
+<!--</head>-->
+<!--<body>-->
+<!--<div id="map" style="width:400px;height:400px;"></div>-->
+
+<!--<script>-->
+    <!--var map = new naver.maps.Map('map', {-->
+        <!--zoom: 7,-->
+        <!--center: new naver.maps.LatLng(37.3614483, 127.1114883)-->
+    <!--});-->
+
+    <!--var markerList = [];-->
+    <!--var menuLayer = $('<div style="position:absolute;z-index:10000;background-color:#fff;border:solid 1px #333;padding:10px;display:none;"></div>');-->
+
+    <!--map.getPanes().floatPane.appendChild(menuLayer[0]);-->
+
+
+    <!--naver.maps.Event.addListener(map, 'click', function(e) {-->
+        <!--var marker = new naver.maps.Marker({-->
+            <!--position: e.coord,-->
+            <!--map: map-->
+        <!--});-->
+
+        <!--markerList.push(marker);-->
+    <!--});-->
+
+    <!--naver.maps.Event.addListener(map, 'keydown', function(e) {-->
+        <!--var keyboardEvent = e.keyboardEvent,-->
+            <!--keyCode = keyboardEvent.keyCode || keyboardEvent.which;-->
+
+        <!--var ESC = 27;-->
+
+        <!--if (keyCode === ESC) {-->
+            <!--keyboardEvent.preventDefault();-->
+
+            <!--for (var i=0, ii=markerList.length; i<ii; i++) {-->
+                <!--markerList[i].setMap(null);-->
+            <!--}-->
+
+            <!--markerList = [];-->
+
+            <!--menuLayer.hide();-->
+        <!--}-->
+    <!--});-->
+
+    <!--naver.maps.Event.addListener(map, 'mousedown', function(e) {-->
+        <!--menuLayer.hide();-->
+    <!--});-->
+
+    <!--naver.maps.Event.addListener(map, 'rightclick', function(e) {-->
+        <!--var coordHtml = 'Coord: '+ e.coord +'<br />Point: '+ e.point +'<br />Offset: '+ e.offset;-->
+
+        <!--menuLayer.show().css({-->
+            <!--left: e.offset.x,-->
+            <!--top: e.offset.y-->
+        <!--}).html(coordHtml);-->
+    <!--});-->
+
+
+    <!--//http://localhost:63342/untitled1/.idea/sample.html?_ijt=e17em9jsnmtsskj3h3e1i84hod-->
+<!--//    var mapOptions = {-->
+<!--//        center: new naver.maps.LatLng(37.3, 127.105399),-->
+<!--//        zoom: 9,-->
+<!--//        activateBicycleMap : true-->
+<!--//    };-->
+<!--//-->
+<!--//-->
+<!--//-->
+<!--//    var map = new naver.maps.Map('map', mapOptions);-->
+<!--</script>-->
+<!--</body>-->
+<!--</html>-->

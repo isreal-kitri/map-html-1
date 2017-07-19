@@ -7,11 +7,23 @@
 </head>
 <body>
 <div id="map" style="width:100%;height:350px;"></div>
-
+<!--검색하고 싶은 내용을 입력 하세요 : <input type="text" name="clickgab"><br>-->
+<br>
+<button onclick="inputevt()">다각형</button>
 <script type="text/javascript" src="//apis.daum.net/maps/maps3.js?apikey=8d170cacc34eeabbb70b0f4fe5672fd2&libraries=services"></script>
+
 <script>
+// 다각형이라는 input을 누르면 해당하는 내용 근처로 화면이 옮겨가고 마커가 표시 된다.
+    var inputString ;
+    var ps;
 
+    function inputevt() {
+        inputString = prompt();
+        ps = new daum.maps.services.Places();
 
+        // 키워드로 장소를 검색합니다
+        ps.keywordSearch(inputString, placesSearchCB);
+    }
     // 마커를 클릭하면 장소명을 표출할 인포윈도우 입니다
     var infowindow = new daum.maps.InfoWindow({zIndex:1});
 
@@ -26,10 +38,7 @@
     var map = new daum.maps.Map(mapContainer, mapOption);
 
     // 장소 검색 객체를 생성합니다
-    var ps = new daum.maps.services.Places();
 
-    // 키워드로 장소를 검색합니다
-    ps.keywordSearch(inputString, placesSearchCB);
 
     // 키워드 검색 완료 시 호출되는 콜백함수 입니다
     function placesSearchCB (status, data, pagination) {
@@ -66,12 +75,7 @@
         });
     }
 
-    function inputJuso() {
-        $("#clickBtn").click(function () {
-            var inputString = prompt('문자열을 입력하세요');
-        })
-    }
 </script>
-<input type ="button" value="클릭해보셈" id="clickBtn"/>
+
 </body>
 </html>
